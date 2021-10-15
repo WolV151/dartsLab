@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package app;
+
+service DartsMatch {
+    rpc CreateMatch (MatchRequest) returns (MatchResponce) {}
+    rpc RegisterPlayer (RegisterRequest) returns (RegisterResponce) {}
+    rpc FinalizeMatch (FinalizeRequest) returns (FinalizeResponce) {}
+    rpc ProcessVisit (VisitRequest) returns (VisitResponce) {}
+    rpc ListMatches (ListRequest) returns (ListResponce) {}
+    rpc WatchMatch (WatchRequest) returns (stream WatchResponce) {}
+}
+
+message MatchRequest {
+    string userName = 1;
+    string matchType = 2;
+}
+
+message MatchResponce {
+    bytes matchId = 1;
+}
+
+// The request message containing the user's name
+message RegisterRequest {
+    bytes matchId = 1;
+    string userName = 2;
+}
+
+message RegisterResponce {
+    int32 playerIndex = 1;
+}
+
+message FinalizeRequest {
+    bytes matchId = 1;
+}
+
+message FinalizeResponce {
+}
+
+message Dart {
+    enum DartsMultiplier {
+        MISS = 0;
+        SINGLE = 1;
+        DOUBLE = 2;
+        TREBLE = 3;
+    }
+    DartsMultiplier multiplier = 1;
+    int32 segment = 2;
+}
+
+message VisitRequest {
+    bytes matchId = 1;
+    int32 playerIndex = 2;
+    repeated Dart visit = 3;
+}
+
+// The response message containing the greetings
+message VisitResponce {
+    int32 result = 1;
+    string message = 2;
+}
+
+message ListRequest {
+    bytes matchId = 1;
+    int32 playerIndex = 2;
+    repeated Dart visit = 3;
+}
+
+message Player {
+    string userName = 1;
+    int32 playerIndex = 2;
+}
+
+message Match {
+    repeated Player players = 1;
+}
+
+// The response message containing greetings
+
+message ListResponce {
+    repeated Match matches = 1;
+}
+
+message WatchRequest {
+    // bytes matchId = 1;
+}
+
+message WatchResponce {
+    Player player = 1;
+    repeated Dart darts = 2;
+    int32 score = 3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

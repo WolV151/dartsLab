@@ -8,15 +8,18 @@ class MatchManager(ABC):
 
     def set_match(self, match):
         self.match = match
-        self.post_init()    # initialise whatever is specific to the match type
+       # self.post_init()    # initialise whatever is specific to the match type
 
     def end_match(self):
-        self.match.active = False
+        self.match.status = False
 
     @abstractmethod
     def post_init(self):
         """Primitive operation. You HAVE TO override me, I'm a placeholder."""
         pass
+
+    def finalize_setup(self):
+        self.post_init()
 
 
 class MatchVisitTemplate(ABC):
